@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fear Of Drowning</title>
+</head>
+<body>
+    <div id="poem"></div>
+                <script>
+            fetch('../poems-txt/2023.04.23_0_fear-of-drowning.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('poem').innerText = data;
+            })
+            .catch(error => console.error('Error loading poem:', error));
+        </script>
+</body>
+</html>
