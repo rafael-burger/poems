@@ -1,18 +1,15 @@
 
 <!DOCTYPE html>
-<head>
-  <link rel="stylesheet" href="../styles.css">
-</head>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/styles.css">
     <title>I Blink And</title>
 </head>
 <body>
     <div id="poem"></div>
                 <script>
-            fetch('../poems-txt/2024.04.23_0_i-blink-and.txt')
+            fetch('/src/2024.04.23_0_i-blink-and.txt')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('poem').innerText = data;

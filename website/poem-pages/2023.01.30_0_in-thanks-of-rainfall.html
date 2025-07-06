@@ -1,18 +1,15 @@
 
 <!DOCTYPE html>
-<head>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/styles.css">
     <title>In Thanks Of Rainfall</title>
 </head>
 <body>
     <div id="poem"></div>
                 <script>
-            fetch('../poems-txt/2023.01.30_0_in-thanks-of-rainfall.txt')
+            fetch('/src/2023.01.30_0_in-thanks-of-rainfall.txt')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('poem').innerText = data;

@@ -1,7 +1,14 @@
 import os
 
+"""
+usage: (from ~/poems/website)
+
+python3 "../tools/make-poem-pages.py"
+"""
+
+
 # Where your text files are
-poem_folder = 'poems-txt'
+poem_folder = '/src'
 output_folder = 'poem-pages'
 
 # Make sure output folder exists
@@ -13,20 +20,13 @@ html_template = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/styles.css">
     <title>{title}</title>
 </head>
-<style>
-    body {{
-        font-family: "Ubuntu";
-        background-color: white;
-        color: black;
-        font-family: 'Courier New';
-    }}
-</style>
 <body>
     <div id="poem"></div>
                 <script>
-            fetch('../{poem_page_dir}/{poem_page_file}')
+            fetch('{poem_src_dir}/{poem_src_file}')
             .then(response => response.text())
             .then(data => {{
                 document.getElementById('poem').innerText = data;
@@ -38,11 +38,11 @@ html_template = """
 """
 
 # Go through each .txt file and make a page
-for filename in os.listdir(poem_folder):
+for filename in os.listdir("src"):
     if filename.endswith('.txt'):
         poem_name = os.path.splitext(filename)[0]
         title = poem_name.replace('-', ' ').split('_')[-1].title()
-        html_content = html_template.format(title=title, poem_page_dir=poem_folder, poem_page_file=filename)
+        html_content = html_template.format(title=title, poem_src_dir=poem_folder, poem_src_file=filename)
         output_path = os.path.join(output_folder, poem_name + '.html')
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(html_content)
