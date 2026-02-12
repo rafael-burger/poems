@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/poems/styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <title>Fear Of Drowning</title>
 </head>
 <body>
     <div id="poem"></div>
                 <script>
-            fetch('/poems/src/2023.04.23_0_fear-of-drowning.txt')
+            fetch('/src/2023.04.23_0_fear-of-drowning.txt')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('poem').innerText = data;

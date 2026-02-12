@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/poems/styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <title>Flight 2157 To Dfw</title>
 </head>
 <body>
     <div id="poem"></div>
                 <script>
-            fetch('/poems/src/2024.07.07_0_flight-2157-to-DFW.txt')
+            fetch('/src/2024.07.07_0_flight-2157-to-DFW.txt')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('poem').innerText = data;
