@@ -9,7 +9,7 @@
 <body>
     <div id="poem"></div>
                 <script>
-            fetch('/src/2024.04.23_0_i-blink-and.txt')
+            fetch('/poems/src/2024.04.23_0_i-blink-and.txt')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('poem').innerText = data;

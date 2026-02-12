@@ -9,7 +9,7 @@
 <body>
     <div id="poem"></div>
                 <script>
-            fetch('/src/2025.03.25_1_honesty.txt')
+            fetch('/poems/src/2025.03.25_1_honesty.txt')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('poem').innerText = data;
