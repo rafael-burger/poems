@@ -1,0 +1,54 @@
+Event_Database
+
+
+      label 	| 	  notable_event  	|  color_code	|  cost
+---------------+------------------------+--------------+--------
+new_hat	 	| "purchased new hat"	| R			| 	17.5
+			|					|			|
+E207_11.2		| "non-negative matri...	| W/Gra		|   200.0
+			|  x factorization (p2)"	| 			|
+			|					|			|
+forgetting_0.1	| "creosote bush behi...	| Y			|   500.0
+			|  ind fence"			|			|
+			|					|			|
+water_0.1		| "line for Elkay EZH20"	| Gra		| 	 5.0
+			|					|			|
+water_0.2		| "adam c in shower t...	| W/Y		| 	 2.0
+			|  oo long"			| 			|
+			|					|			|
+water_0.3		| "days of rain"		| Gra/Br		|   	 0.0
+			|					|			|
+remembering_0.1| "dinner with isabel"	| R/K		| 	 0.0
+			|					|			|
+engl064BPO.01	| "round table" 		| Br			|   200.0
+			|					|			|
+remembering_0.2| "feeling of water o...	| Bl			|	 0.0
+			|  n skin"			|			|
+			|					|			|
+rocket		| "napped through launch"| Or			| 	50.0
+			.					.			.
+			.					.			.
+			.					.			.
+bare_feet		| "cold concrete, war...	| Gr			|	 0.0
+			|  m concrete"			|			|
+			|					|			|
+waking		| "bright"			| W			|   200.0
+			|					|			|
+walking_0.1	| "going nowhere"		| Gr			|   150.0
+			|					|			|
+walking_0.2	| "going somewhere"		| Gr/Gra		|   300.0
+			|					|			|
+drunk		| "drunk"				| K			| 	 N/A
+			|					|			|
+forgetting_0.2	| "clouds and mounta...	| Bl/Gr		|   500.0
+			|  ins and busy road"	| 			| 
+			|					|			|
+hungry		| "napped through lunch"	| Br			| 	 6.0
+			|					|			|
+forgiving		| "going nowhere" 		| Y			| 	10.0
+			|					|			|
+water_0.4		| "cold, heavy"		| Bl/K		|	 0.0
+			|					|			|
+			|					|			|
+rafael_burger	|					|			|
+
