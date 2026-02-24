@@ -132,7 +132,11 @@ class Handler:
         dest_dir = Path(parsed.dest_dir)
         dest_dir.mkdir(parents=True, exist_ok=True)
         src_dir = dest_dir / "src"
-        src_dir.mkdir(exist_ok=True)
+        skip_copy = src_dir.exists() and src_dir.resolve() == Path("src").resolve()
+        if skip_copy:
+            print(f"Warning: dest-dir/src already points to the source directory; poem files will not be copied.")
+        else:
+            src_dir.mkdir(exist_ok=True)
 
         poem_config = PoemConfig(config)
         poems = poem_config.getPoems()
@@ -142,7 +146,8 @@ class Handler:
             basename = Path(poem.filepath).name
             try:
                 page = HtmlPage(basename, poem.title)
-                shutil.copy2(poem.filepath, src_dir / basename)
+                if not skip_copy:
+                    shutil.copy2(poem.filepath, src_dir / basename)
                 page.write(dest_dir)
                 pages.append(page)
             except ValueError as e:
