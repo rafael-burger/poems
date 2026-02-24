@@ -4,6 +4,7 @@ poem_tool_handler.py
 
 import argparse
 import os
+import shutil
 from pathlib import Path
 from website_config import ConfigDatabase, ConfigEntry, PoemEntry, PoemConfig, HtmlPage, generate_index
 
@@ -130,6 +131,8 @@ class Handler:
 
         dest_dir = Path(parsed.dest_dir)
         dest_dir.mkdir(parents=True, exist_ok=True)
+        src_dir = dest_dir / "src"
+        src_dir.mkdir(exist_ok=True)
 
         poem_config = PoemConfig(config)
         poems = poem_config.getPoems()
@@ -139,6 +142,7 @@ class Handler:
             basename = Path(poem.filepath).name
             try:
                 page = HtmlPage(basename, poem.title)
+                shutil.copy2(poem.filepath, src_dir / basename)
                 page.write(dest_dir)
                 pages.append(page)
             except ValueError as e:

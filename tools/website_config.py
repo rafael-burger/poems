@@ -272,7 +272,7 @@ class HtmlPage:
             file.write("<body>")
             file.write("    <div id=\"poem\"></div>")
             file.write("    <script>")
-            file.write(f"        fetch('/src/{self.source_file}')")
+            file.write(f"        fetch('src/{self.source_file}')")
             file.write("        .then(response => response.text())")
             file.write("        .then(data => {")
             file.write("            document.getElementById('poem').innerText = data;")
