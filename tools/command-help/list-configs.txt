@@ -1,0 +1,18 @@
+list-configs:
+
+STARTHELP
+
+Description: 
+
+    List the saved poem-tool configurations.
+
+Arguments:
+
+    None
+
+Usage:
+
+    list-configs
+    lscfg 
+
+ENDHELP

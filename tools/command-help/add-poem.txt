@@ -1,0 +1,19 @@
+add-poem:
+
+STARTHELP
+
+Description:
+
+    Add a poem to the specified configuration
+
+Arguments:
+
+    - (string) Name of the configuration
+    - (string) File name of the poem to add. Should not include parent path. 
+
+Usage:
+
+    add-poem <configuration-name> <poem-file-name>
+    addp <configuration-name> <poem-file-name>
+
+ENDHELP

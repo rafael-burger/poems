@@ -6,6 +6,36 @@ Functions and classes associated with managing website configuration
 
 from pathlib import Path
 import re
+import os
+
+class ConfigEntry:
+    NUM_FIELDS = 2
+    def __init__(self, name: str):
+        self.name = name
+        self.file = f"{ConfigDatabase.BASE_DIR}/{name}.cfg"
+
+    def getName(self):
+        return self.name
+
+    def getFile(self):
+        return self.file
+
+    def toString(self):
+        return f"{self.name} --> {self.file}"
+    
+    def toCsv(self):
+        return f"{self.name},{self.file}"
+
+    def fromCsv(s: str):
+        """
+        Try to create a ConfigEntry from the input string. 
+        If success, return a ConfigEntry. Otherwise, return None
+        """
+        l = s.split(',')
+        if len(l) == ConfigEntry.NUM_FIELDS:
+            return ConfigEntry(l[0])
+        else:
+            return None
 
 class ConfigDatabase:
     BASE_DIR="./config"
@@ -20,23 +50,71 @@ class ConfigDatabase:
            base_path.touch()
 
 
-    def listEntries(self):
+    def getEntries(self):
         """
         Lists (prints) the entries in the current configuration database
         """
+        entries = [] 
         with open(self.BASE_FILE, 'r') as file:
             for line in file.readlines():
                 cfg = ConfigEntry.fromCsv(line)
                 if cfg is not None:
-                    print(cfg.toString())
+                    entries.append(cfg.toString())
+        return entries
 
     def addEntry(self, entry: ConfigEntry):
         """
         Create a configuration entry with the specified name and add it to the configuration database
         """
+        # make sure the config entry isn't already present
+        with open(self.BASE_FILE, 'r') as base_cfg_file:
+            for line in base_cfg_file.readlines():
+                cur_cfg: ConfigEntry = ConfigEntry.fromCsv(line)
+                if cur_cfg is not None and cur_cfg.getName() == entry.getName():
+                    return f"Error: config {entry.getName()} already exists."
+
+        # if not already exists, add it
         with open(self.BASE_FILE, 'a') as file:
-            file.write(entry.toCsv());
+            file.write(f"{entry.toCsv()}\n")
+
+        # and initialize the new entry's configuration file
+        new_cfg_path = Path(entry.getFile())
+        new_cfg_path.touch()
+
+    def removeEntry(self, entry: ConfigEntry):
+        """
+        Remove the specified entry from the database
+        """
+        # find the entry to remove
+        entries_to_keep: list = [] 
+        entry_found: bool = False
+        print(f"trying to open file {self.BASE_FILE}")
+        with open(self.BASE_FILE, 'r') as base_cfg_file:
+            print(f"trying to remove entry with name={entry.getName()}")
+            for line in base_cfg_file.readlines():
+                cur_cfg: ConfigEntry = ConfigEntry.fromCsv(line)
+                if cur_cfg is not None:
+                    print(f"comparing it to cur_entry with name={cur_cfg.getName()}")
+                if cur_cfg is None:
+                    raise Exception("error while parsing config entry line '{line}'")
+                elif cur_cfg.getName() == entry.getName():
+                    print("Removing config '{entry.getName()}'")
+                    entry_found = True
+                else:
+                    entries_to_keep.append(cur_cfg)
+        # if the entry to be removed was found, overwrite the config file
+        if entry_found:
+            with open(self.BASE_FILE, 'w') as base_cfg_file:
+                for entry in entries_to_keep:
+                    base_cfg_file.write(entry.toCsv())
+            # and remove the config file for the removed entry
+            print(f"trying to remove file '{entry.getFile()}")
+            os.remove(entry.getFile())
             
+
+
+        
+                    
     def getEntry(self, name: str):
         """
         Get the specified configuration entry. If not found, return None
@@ -49,36 +127,9 @@ class ConfigDatabase:
                         return entry
         return None
 
-class ConfigEntry:
-    NUM_FIELDS = 2
-    def __init__(self, name: str, file: str):
-        self.name = name
-        self.file = file
-
-    def getName(self):
-        return name
-
-    def toString(self):
-        return f"{self.name} --> {self.file}"
-    
-    def toCsv(self):
-        return f"{self.name,{self.file}"
-
-    def fromCsv(s: str):
-        """
-        Try to create a ConfigEntry from the input string. 
-        If success, return a ConfigEntry. Otherwise, return None
-        """
-        l = s.split(',')
-        if len(l) == ConfigEntry.NUM_FIELDS:
-            return ConfigEntry(l[0], l[1])
-        else:
-            return None
-
 
 class HtmlPage:
     NUM_FIELDS = 2
-    PAGE_DIR = 
     #                           1            2      3
     #                       date            num     title
     SOURCE_PATTERN = r"$(\d\d\d\d.\d\d.\d\d)(_\d+_)(.*)\.txt^"
@@ -95,7 +146,7 @@ class HtmlPage:
         """
         match = re.search(SOURCE_PATTERN, source_file) 
         if not match:
-            throw ValueError(f"unable to parse source file {source_file}")
+            raise ValueError(f"unable to parse source file {source_file}")
         else:
             # store the source file
             self.source_file = source_file

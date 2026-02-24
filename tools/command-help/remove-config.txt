@@ -1,0 +1,18 @@
+remove-config:
+
+STARTHELP
+
+Description:
+
+    Remove a saved configuration.
+
+Arguments:
+
+    - (string) Name of the saved configuration
+
+Usage:
+
+    remove-config <configuration-name>
+    rmcfg <configuration-name>
+
+ENDHELP
