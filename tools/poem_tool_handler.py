@@ -132,26 +132,29 @@ class Handler:
         dest_dir = Path(parsed.dest_dir)
         dest_dir.mkdir(parents=True, exist_ok=True)
         src_dir = dest_dir / "src"
-        skip_copy = src_dir.exists() and src_dir.resolve() == Path("src").resolve()
-        if skip_copy:
-            print(f"Warning: dest-dir/src already points to the source directory; poem files will not be copied.")
-        else:
-            src_dir.mkdir(exist_ok=True)
+        src_dir.mkdir(exist_ok=True)
 
         poem_config = PoemConfig(config)
         poems = poem_config.getPoems()
 
         pages = []
+        skipped_copies = 0
         for poem in poems:
             basename = Path(poem.filepath).name
             try:
                 page = HtmlPage(basename, poem.title)
-                if not skip_copy:
-                    shutil.copy2(poem.filepath, src_dir / basename)
+                dest_src_path = src_dir / basename
+                if Path(poem.filepath).resolve() != dest_src_path.resolve():
+                    shutil.copy2(poem.filepath, dest_src_path)
+                else:
+                    skipped_copies += 1
                 page.write(dest_dir)
                 pages.append(page)
             except ValueError as e:
                 print(f"Warning: skipping '{poem.filepath}': {e}")
+
+        if skipped_copies > 0:
+            print(f"Warning: {skipped_copies} poem file(s) already in dest-dir/src; skipped copy.")
 
         generate_index(pages, dest_dir)
         print(f"Generated {len(pages)} poem page(s) and index.html in '{dest_dir}'")
