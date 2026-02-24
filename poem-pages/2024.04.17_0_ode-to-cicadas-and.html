@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Ode To Cicadas And</title>
+</head>
+<body>
+    <div id="poem"></div>
+                <script>
+            fetch('/src/2024.04.17_0_ode-to-cicadas-and.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('poem').innerText = data;
+            })
+            .catch(error => console.error('Error loading poem:', error));
+        </script>
+</body>
+</html>

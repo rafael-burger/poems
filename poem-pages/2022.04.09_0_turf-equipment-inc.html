@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Turf Equipment Inc</title>
+</head>
+<body>
+    <div id="poem"></div>
+                <script>
+            fetch('/src/2022.04.09_0_turf-equipment-inc.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('poem').innerText = data;
+            })
+            .catch(error => console.error('Error loading poem:', error));
+        </script>
+</body>
+</html>

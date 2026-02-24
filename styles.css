@@ -1,0 +1,46 @@
+body, h1, h2, p, ul {
+    margin-top: 25px;
+    margin-bottom: 25px; 
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+body {
+    font-family: "Ubuntu";
+    background-color: white;
+    color: black;
+    font-family: "Lucida Console", "Courier New", "monospace";
+    text-decoration: none;
+    line-height: 1.5;
+}
+a {
+    font-family: "Lucida Console", "Courier New", "monospace";
+    text-decoration: none;
+    color: inherit;
+    line-height: 1.5;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between; /* Push items to far left and far right */
+    font-family: "Ubuntu";
+    background-color: white;
+    color: black;
+    font-family: "Lucida Console", "Courier New", "monospace";
+    text-decoration: none;
+    line-height: 1.5;
+}
+
+.left {
+  /* optional styling */
+}
+
+.right {
+  /* optional styling */
+}
+
+a.line {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 50px;
+}
