@@ -1,0 +1,19 @@
+remove-poem:
+
+STARTHELP
+
+Description:
+
+    Remove a poem to the specified configuration
+
+Arguments:
+
+    - (string) Name of the configuration
+    - (string) File name of the poem to remove. Should not include parent path. 
+
+Usage:
+
+    remove-poem <configuration-name> <poem-file-name>
+    rmp <configuration-name> <poem-file-name>
+
+ENDHELP

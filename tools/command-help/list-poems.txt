@@ -1,0 +1,18 @@
+list-poems:
+
+STARTHELP
+
+Description:
+
+    List the poems in the specified configuration
+
+Arguments:
+
+    - (string) Name of the configuration
+
+Usage:
+
+    list-poems <configuration-name>
+    lsp <configuration-name>
+
+ENDHELP

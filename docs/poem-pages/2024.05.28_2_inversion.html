@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Inversion</title>
+</head>
+<body>
+    <div id="poem"></div>
+                <script>
+            fetch('/src/2024.05.28_2_inversion.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('poem').innerText = data;
+            })
+            .catch(error => console.error('Error loading poem:', error));
+        </script>
+</body>
+</html>
