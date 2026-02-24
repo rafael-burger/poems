@@ -39,6 +39,9 @@ class Command:
                     help_str += f"{line}"
         return help_str
 
+    def getDescription(self):
+        return self.help
+
     def getNargs(self):
         return self.nargs
 
@@ -78,7 +81,28 @@ class CommandParser:
         parser.add_argument("arguments", nargs=argparse.REMAINDER)
         parser.add_argument("-h", "--help", action='store_true')
         args = parser.parse_args()
-        return [args.command, args.arguments, args.help]
+        # REMAINDER swallows -h/--help when it appears after the command;
+        # detect and strip it manually.
+        help_flag = args.help
+        remaining = []
+        for arg in args.arguments:
+            if arg in ('-h', '--help'):
+                help_flag = True
+            else:
+                remaining.append(arg)
+        return [args.command, remaining, help_flag]
+
+    def getGeneralHelp():
+        lines = ["Usage: poem <command> [args]", "", "Commands:"]
+        col1 = max(len(c.getName()) for c in CommandParser.COMMANDS.values())
+        col2 = max(len(c.keywords[1]) for c in CommandParser.COMMANDS.values() if len(c.keywords) > 1)
+        for command in CommandParser.COMMANDS.values():
+            name = command.getName()
+            alias = command.keywords[1] if len(command.keywords) > 1 else ""
+            lines.append(f"  {name:<{col1}}  {alias:<{col2}}  {command.getDescription()}")
+        lines.append("")
+        lines.append("Run 'poem <command> --help' for command-specific help.")
+        return "\n".join(lines)
 
     def getCommand(keyword: str):
         """

@@ -7,7 +7,7 @@ Entrypoint for the poem tool utility
 from poem_tool_commands import Command, CommandParser, doCommand
 
 def getHelp():
-    return "TODO: fill help"
+    return CommandParser.getGeneralHelp()
 
 if __name__ == "__main__":
     keyword, args, help_flag = CommandParser.parseCommandArgs()
