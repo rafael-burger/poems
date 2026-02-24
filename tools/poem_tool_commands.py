@@ -8,14 +8,16 @@ import argparse
 import re
 from poem_tool_handler import Handler
 
+
 class Command:
     HELPDIR = "command-help"
     STARTHELP_PATTERN = r"^\s*STARTHELP\s*$"
     ENDHELP_PATTERN = r"^\s*ENDHELP\s*$"
-    def __init__(self, keywords: list, help: str, nargs: int, cb: callable):
+
+    def __init__(self, keywords: list, help: str, nargs: tuple, cb: callable):
         self.keywords = keywords
         self.help = help
-        self.nargs = nargs     
+        self.nargs = nargs
         self.callback = cb
 
     def getName(self):
@@ -25,7 +27,7 @@ class Command:
         help_file = f"{Command.HELPDIR}/{self.getName()}.txt"
         help_str = ""
         with open(help_file, 'r') as file:
-            ON_FLAG = False # only print lines between "STARTHELP" and "ENDHELP"
+            ON_FLAG = False  # only print lines between "STARTHELP" and "ENDHELP"
             for line in file.readlines():
                 match_start = re.search(Command.STARTHELP_PATTERN, line)
                 match_end = re.search(Command.ENDHELP_PATTERN, line)
@@ -43,39 +45,41 @@ class Command:
     def matches(self, keyword: str):
         return keyword in self.keywords
 
-    
 
 class CommandParser:
 
     COMMANDS = {
         "list-configs": Command(
-            ["list-configs", "lscfg"],   "List the available configurations",  0, Handler.listConfigs
-            ),
+            ["list-configs", "lscfg"],   "List the available configurations",                   (0, 0), Handler.listConfigs
+        ),
         "add-config": Command(
-            ["add-config", "addcfg"],    "Add a configuration",                1, Handler.addConfig
-            ),
+            ["add-config", "addcfg"],    "Add a configuration",                                 (1, 1), Handler.addConfig
+        ),
         "remove-config": Command(
-            ["remove-config", "rmcfg"],  "Remove a configuration",             1, Handler.removeConfig
-            ),
+            ["remove-config", "rmcfg"],  "Remove a configuration",                              (1, 1), Handler.removeConfig
+        ),
         "list-poems": Command(
-            ["list-poems", "lsp"],       "List the poems in the specified configuration", 1, Handler.listPoems
-            ),
+            ["list-poems", "lsp"],       "List the poems in the specified configuration",        (0, 1), Handler.listPoems
+        ),
         "add-poem": Command(
-            ["add-poem", "addp"],        "Add a poem to the specified configuration", 2, Handler.addPoem
-            ),
+            ["add-poem", "addp"],        "Add a poem to the specified configuration",            (1, 2), Handler.addPoem
+        ),
         "remove-poem": Command(
-            ["remove-poem", "rmp"],      "Remove a poem from the specified configuration", 2, Handler.removePoem
-            )
+            ["remove-poem", "rmp"],      "Remove a poem from the specified configuration",       (1, 2), Handler.removePoem
+        ),
+        "generate-html": Command(
+            ["generate-html", "genhtml"], "Generate HTML from the specified configuration",      (0, None), Handler.generateHtml
+        ),
     }
 
     def parseCommandArgs():
         parser = argparse.ArgumentParser(description="Poem Tool Command Line Utility.", add_help=False)
         parser.add_argument("command", type=str, nargs='?')
-        parser.add_argument("arguments", nargs="*")
+        parser.add_argument("arguments", nargs=argparse.REMAINDER)
         parser.add_argument("-h", "--help", action='store_true')
         args = parser.parse_args()
         return [args.command, args.arguments, args.help]
-    
+
     def getCommand(keyword: str):
         """
         Just checks if the provided command string maps to a valid command. If it does,
@@ -86,8 +90,11 @@ class CommandParser:
                 return command
         raise ValueError
 
+
 def doCommand(command: Command, args: list):
-    if len(args) != command.getNargs():
+    lo, hi = command.getNargs()
+    n = len(args)
+    if n < lo or (hi is not None and n > hi):
+        print(f"Error: {command.getName()} expects {lo}–{hi} args, got {n}")
         return False
-    else:
-        return command.callback(args)
+    return command.callback(args)

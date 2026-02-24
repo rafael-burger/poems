@@ -1,0 +1,30 @@
+generate-html:
+
+STARTHELP
+
+Description:
+
+    Generate HTML pages for all poems in the specified configuration.
+    Creates an individual HTML page for each poem and an index.html
+    table of contents linking to all poems.
+
+Arguments:
+
+    - (string, optional) Name of the configuration to use.
+                         Uses the first saved configuration if omitted.
+    - -d / --dest-dir    (string, optional) Output directory for generated
+                         HTML files. Defaults to ./output.
+
+Usage:
+
+    generate-html [<config-name>] [-d <output-dir>]
+    genhtml [<config-name>] [-d <output-dir>]
+
+Examples:
+
+    generate-html
+    generate-html mysite
+    generate-html mysite -d ./output
+    genhtml mysite --dest-dir /var/www/html
+
+ENDHELP

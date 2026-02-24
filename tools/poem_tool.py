@@ -17,8 +17,6 @@ if __name__ == "__main__":
         if help_flag:
             print(command.getHelp())
         else:
-            print(f"Got command: {command_name}")
-            print(f"    args: {args}")
             output = doCommand(command, args)
             if output is not None:
                 print(output)
