@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# poem — entrypoint for the poem tool CLI
+#
+# Works when called directly, added to PATH, or symlinked from /usr/local/bin.
+
+# Resolve symlinks to find the real script location
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+
+cd "$SCRIPT_DIR/tools"
+exec python3 poem_tool.py "$@"
