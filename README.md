@@ -41,7 +41,7 @@ Available commands (and their short aliases):
 | `remove-poem`   | `rmp`    | Remove a poem from a configuration               |
 | `generate-html` | `genhtml`| Generate HTML pages from a configuration         |
 
-Pass `-h` after any command for its detailed help text.
+Pass `--help` after any command for its detailed help text.
 
 ### `poem_tool_handler.py`
 
@@ -99,6 +99,14 @@ From the `tools/` directory:
 
 ```bash
 python3 poem_tool.py <command> [args]
+```
+
+### Help
+
+```bash
+poem                             # show general help (list of commands)
+poem --help                      # same
+poem add-poem --help             # show help for a specific command
 ```
 
 ### Examples
