@@ -288,7 +288,7 @@ def generate_index(pages, dest_dir: Path):
     rows = ""
     for page in pages:
         title_display = page.title.replace('-', ' ')
-        rows += f'        <tr><td><a href="{page.page_file}">{title_display}</a></td><td>{page.date}</td></tr>\n'
+        rows += f'        <tr><td><a href="{page.page_file}">{title_display}</a></td></tr>\n'
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
