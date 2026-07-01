@@ -4,17 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a Python CLI tool (`poem_tool.py`) for managing a static poetry website. It handles poem registration, config management, and HTML generation.
+This is a Python CLI tool (`poem_tool` package, installed as the `poem` command) for managing a static poetry website. It handles poem registration, config management, and HTML generation.
 
 ## Running the tool
 
+Install once (editable install, from the `tools/` directory):
+
 ```bash
-python poem_tool.py <command> [args]
-python poem_tool.py --help
-python poem_tool.py <command> --help
+pip install -e .
 ```
 
-There is no install step, build step, or test suite.
+This registers a `poem` console script (via `pyproject.toml`'s `[project.scripts]`) that works from any directory — it no longer requires `cd`ing into `tools/`.
+
+```bash
+poem <command> [args]
+poem --help
+poem <command> --help
+```
+
+There is no build step or test suite.
 
 ## Commands
 
@@ -38,19 +46,23 @@ The date, sequence number, and hyphenated title are all parsed from the filename
 
 ## Architecture
 
-**`poem_tool.py`** — CLI entrypoint. Parses command/args/help flag and dispatches via `doCommand`.
+The CLI lives in the `poem_tool/` package (installed via `pyproject.toml`):
 
-**`poem_tool_commands.py`** — Defines `Command` objects (keywords, nargs, callback) and `CommandParser` (registry + arg parsing). Help text is loaded from `command-help/<command-name>.txt` between `STARTHELP` / `ENDHELP` markers.
+**`poem_tool/cli.py`** — Entrypoint (`main()`, wired up as the `poem` console script). Parses command/args/help flag and dispatches via `doCommand`.
 
-**`poem_tool_handler.py`** — `Handler` class contains one static method per command. Delegates all data access to `website_config.py` classes.
+**`poem_tool/commands.py`** — Defines `Command` objects (keywords, nargs, callback) and `CommandParser` (registry + arg parsing). Help text is loaded from `command-help/<command-name>.txt` (resolved via `paths.COMMAND_HELP_DIR`) between `STARTHELP` / `ENDHELP` markers.
 
-**`website_config.py`** — Data layer and HTML generation:
+**`poem_tool/handler.py`** — `Handler` class contains one static method per command. Delegates all data access to `website_config.py` classes.
+
+**`poem_tool/website_config.py`** — Data layer and HTML generation:
 - `ConfigDatabase` — reads/writes `config/_base.cfg` (CSV: `name,filepath`) as the master list of configs
 - `ConfigEntry` — represents one named config; its poems live in `config/<name>.cfg`
-- `PoemEntry` — one poem record (UUID, date, title, filepath); persisted as CSV
+- `PoemEntry` — one poem record (UUID, date, title, filepath); persisted as CSV. `filepath` is stored as an absolute path, resolved at add-time
 - `PoemConfig` — reads/writes a config's poem list; deduplicates by filepath
 - `HtmlPage` — generates a single poem HTML page (fetches `.txt` via JS `fetch()`)
 - `generate_index()` — generates `index.html` table of contents
+
+**`poem_tool/paths.py`** — Resolves `config/` and `command-help/` relative to the installed package's location on disk (`tools/`), not the caller's cwd. This is what lets `poem` be invoked from any directory.
 
 ## HTML output structure
 

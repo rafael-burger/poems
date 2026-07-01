@@ -1,12 +1,12 @@
 """
-poem_tool_handler.py
+handler.py
 """
 
 import argparse
 import os
 import shutil
 from pathlib import Path
-from website_config import ConfigDatabase, ConfigEntry, PoemEntry, PoemConfig, HtmlPage, generate_index
+from .website_config import ConfigDatabase, ConfigEntry, PoemEntry, PoemConfig, HtmlPage, generate_index
 
 
 def _resolve_config(db, args, name_index=0):

@@ -1,19 +1,18 @@
 """
-poem_tool.py
+cli.py
 
 Entrypoint for the poem tool utility
 """
 
-from poem_tool_commands import Command, CommandParser, doCommand
+from .commands import CommandParser, doCommand
 
 def getHelp():
     return CommandParser.getGeneralHelp()
 
-if __name__ == "__main__":
+def main():
     keyword, args, help_flag = CommandParser.parseCommandArgs()
-    try: 
+    try:
         command = CommandParser.getCommand(keyword)
-        command_name = command.getName()
         if help_flag:
             print(command.getHelp())
         else:
@@ -24,3 +23,6 @@ if __name__ == "__main__":
         if keyword is not None:
             print(f"Unrecognized command keyword {keyword}")
         print(getHelp())
+
+if __name__ == "__main__":
+    main()

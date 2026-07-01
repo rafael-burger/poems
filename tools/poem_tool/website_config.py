@@ -9,6 +9,8 @@ import re
 import os
 import uuid as uuid_module
 
+from .paths import CONFIG_DIR
+
 
 class ConfigEntry:
     NUM_FIELDS = 2
@@ -62,7 +64,8 @@ class PoemEntry:
         date = match.group(1)
         title = match.group(2)
         new_uuid = str(uuid_module.uuid4())
-        return PoemEntry(new_uuid, date, title, filepath)
+        abs_filepath = str(Path(filepath).resolve())
+        return PoemEntry(new_uuid, date, title, abs_filepath)
 
     def fromCsv(s: str):
         """
@@ -135,8 +138,8 @@ class PoemConfig:
 
 
 class ConfigDatabase:
-    BASE_DIR="./config"
-    BASE_FILE=f"{BASE_DIR}/_base.cfg"
+    BASE_DIR = str(CONFIG_DIR)
+    BASE_FILE = str(CONFIG_DIR / "_base.cfg")
 
     def __init__(self):
         base_path = Path(ConfigDatabase.BASE_FILE)

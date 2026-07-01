@@ -1,16 +1,16 @@
 """
-poem_tool_commands.py
+commands.py
 
 Entrypoint for the poem tool utility
 """
 
 import argparse
 import re
-from poem_tool_handler import Handler
+from .handler import Handler
+from .paths import COMMAND_HELP_DIR
 
 
 class Command:
-    HELPDIR = "command-help"
     STARTHELP_PATTERN = r"^\s*STARTHELP\s*$"
     ENDHELP_PATTERN = r"^\s*ENDHELP\s*$"
 
@@ -24,7 +24,7 @@ class Command:
         return self.keywords[0]
 
     def getHelp(self):
-        help_file = f"{Command.HELPDIR}/{self.getName()}.txt"
+        help_file = COMMAND_HELP_DIR / f"{self.getName()}.txt"
         help_str = ""
         with open(help_file, 'r') as file:
             ON_FLAG = False  # only print lines between "STARTHELP" and "ENDHELP"

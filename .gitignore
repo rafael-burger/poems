@@ -4,3 +4,5 @@ config
 output
 tools/*.html
 tools/src
+*.egg-info
+tools/build
