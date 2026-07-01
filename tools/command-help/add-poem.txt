@@ -9,7 +9,9 @@ Description:
 Arguments:
 
     - (string) Name of the configuration
-    - (string) File name of the poem to add. Should not include parent path. 
+    - (string) Path to the poem file to add (relative or absolute). This path is
+      stored as-is and used later by generate-html to locate and copy the source
+      file, so it should remain valid from the tool's working directory.
 
 Usage:
 

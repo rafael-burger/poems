@@ -59,8 +59,14 @@ class Handler:
         print(f"Removed config '{config_name}'")
 
     def listPoems(args: list):
+        parser = argparse.ArgumentParser(prog="list-poems", add_help=False)
+        parser.add_argument("config_name", nargs="?", default=None)
+        parser.add_argument("--detailed", action="store_true")
+        parsed = parser.parse_args(args)
+
         db = ConfigDatabase()
-        config, _ = _resolve_config(db, args, 0)
+        config_args = [parsed.config_name] if parsed.config_name is not None else []
+        config, _ = _resolve_config(db, config_args, 0)
         if config is None:
             return
         poem_config = PoemConfig(config)
@@ -69,7 +75,11 @@ class Handler:
             print(f"No poems in config '{config.getName()}'")
         else:
             for poem in poems:
-                print(poem.toString())
+                if parsed.detailed:
+                    print(poem.toString())
+                else:
+                    title_display = poem.title.replace('-', ' ')
+                    print(f"{poem.date}  {title_display}")
 
     def addPoem(args: list):
         db = ConfigDatabase()

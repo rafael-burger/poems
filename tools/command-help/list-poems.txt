@@ -9,10 +9,12 @@ Description:
 Arguments:
 
     - (string) Name of the configuration
+    - (flag) --detailed: show full details (uuid, filepath) for each poem.
+      If omitted, only dates and titles are shown.
 
 Usage:
 
-    list-poems <configuration-name>
-    lsp <configuration-name>
+    list-poems [configuration-name] [--detailed]
+    lsp [configuration-name] [--detailed]
 
 ENDHELP

@@ -62,7 +62,7 @@ class CommandParser:
             ["remove-config", "rmcfg"],  "Remove a configuration",                              (1, 1), Handler.removeConfig
         ),
         "list-poems": Command(
-            ["list-poems", "lsp"],       "List the poems in the specified configuration",        (0, 1), Handler.listPoems
+            ["list-poems", "lsp"],       "List the poems in the specified configuration",        (0, 2), Handler.listPoems
         ),
         "add-poem": Command(
             ["add-poem", "addp"],        "Add a poem to the specified configuration",            (1, 2), Handler.addPoem
